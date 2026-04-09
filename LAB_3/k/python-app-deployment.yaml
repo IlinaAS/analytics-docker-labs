@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-ml-api
+  labels:
+    app: python-ml-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-ml-api
+  template:
+    metadata:
+      labels:
+        app: python-ml-api
+    spec:
+      containers:
+      - name: python-app
+        image: python:3.11-slim
+        ports:
+        - containerPort: 5000
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          pip install flask redis --quiet
+          cat > /app.py << 'EOF'
+          from flask import Flask, jsonify
+          import redis, os
+          app = Flask(__name__)
+          redis_client = redis.Redis(host=os.getenv('REDIS_HOST', 'redis-service'), port=6379, decode_responses=True)
+          @app.route('/')
+          def home():
+              return jsonify({"message": "Python ML API is running!"})
+          @app.route('/counter')
+          def counter():
+              return jsonify({"counter": redis_client.incr('request_counter'), "service": "redis"})
+          @app.route('/health')
+          def health():
+              try:
+                  redis_client.ping()
+                  return jsonify({"status": "healthy", "redis": "connected"})
+              except:
+                  return jsonify({"status": "unhealthy", "redis": "disconnected"}), 503
+          if __name__ == '__main__':
+              app.run(host='0.0.0.0', port=5000)
+          EOF
+          python /app.py
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

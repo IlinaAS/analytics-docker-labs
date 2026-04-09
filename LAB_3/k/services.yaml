@@ -1,0 +1,26 @@
+# Сервис для Python-приложения
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-ml-api-service
+spec:
+  selector:
+    app: python-ml-api
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 5000
+      nodePort: 30500  # Диапазон: 30000-32767
+---
+# Сервис для Redis (внутри кластера)
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+spec:
+  selector:
+    app: redis
+  type: ClusterIP  # Не нужен внешний доступ
+  ports:
+    - port: 6379
+      targetPort: 6379
