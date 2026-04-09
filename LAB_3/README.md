@@ -131,40 +131,55 @@ spec:
 ### 2. Развёртывание в кластере
 Применение манифестов:
 
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_0.PNG)
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_1.PNG)
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_2.PNG)
+
 
 Проверка состояния подов:
-[ВСТАВИТЬ СКРИНШОТ 1: kubectl get pods]
-На скриншоте должно быть видно:
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_3.PNG)
+
 Два пода в статусе Running
-python-ml-api-xxxxx-yyyy и redis-xxxxx-yyyy
 Колонка READY показывает 1/1 (один контейнер в поде запущен)
 Проверка сервисов:
-[ВСТАВИТЬ СКРИНШОТ 2: kubectl get services]
-На скриншоте должно быть видно:
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_4.PNG)
+
 python-ml-api-service с типом NodePort и портом 80:30500/TCP
 redis-service с типом ClusterIP и портом 6379/TCP
 CLUSTER-IP — внутренние IP-адреса сервисов в кластере
 ### 3. Проверка работоспособности приложения
-Определение IP-адреса ВМ:
-bash
-1
-Результат: 192.168.1.18
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d3_3.PNG)
+
 Тестирование через браузер:
 Открыт URL: http://192.168.1.18:30500/counter
-[ВСТАВИТЬ СКРИНШОТ 3: Работающее приложение в браузере]
-На скриншоте должно быть видно:
-JSON-ответ: {"counter":10,"service":"redis"}
-URL в адресной строке: 192.168.1.18:30500/counter
+
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d3_1.PNG)
+
 При обновлении страницы счётчик увеличивается на 1
 
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d3_2.PNG)
 
 
+### 3. Проверка взаимодействия компонентов
+Логи Python-приложения:
 
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_5.PNG)
 
+Проверка связи с Redis:
 
+![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_3/img/d33_6.PNG)
 
+Это подтверждает, что:
+- Python-приложение успешно подключается к Redis
+- Данные сохраняются в базе между запросами
+- Сетевое взаимодействие между сервисами работает через DNS-имя redis-service
 
-## Выводы
+### Выводы
 В процессе выполнения лабораторной работы было развёрнуто два связанных сервиса в Kubernetes:
 Python ML API — веб-приложение на Flask
 Redis — база данных для хранения счётчика
