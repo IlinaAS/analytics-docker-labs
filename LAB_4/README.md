@@ -24,7 +24,9 @@
 ### Сборка Docker-образов
 
 ![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_4/img/d4_2.PNG)
+
 ![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_4/img/d4_3.PNG)
+
 ![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_4/img/d4_4.PNG)
 
 Команды docker build выполнены успешно, образы my-backend:v1 и my-frontend:v1 созданы.
@@ -36,7 +38,9 @@
 Все поды находятся в статусе Running, READY 1/1. Ошибок перезапуска нет.
 
 Проверяем хост и IP-адрес ВМ.
+
 ![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_4/img/d4_7.PNG)
+
 ![](https://github.com/IlinaAS/analytics-docker-labs/blob/main/LAB_4/img/d4_8.PNG)
 
 ### Работающее приложение в браузере (форма ввода и отображение таблицы):
